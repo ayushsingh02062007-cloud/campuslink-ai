@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusLink - Placement Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--ink:#12263A;--ink2:#1d3a56;--paper:#F4F6F8;--card:#fff;--line:#DDE3EA;--text:#1b2733;--mute:#64748b;
+--saf:#E8A33D;--teal:#137C74;--red:#C8453B;--blue:#2F5D9E;--amber:#B7791F}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:"Public Sans",system-ui,sans-serif;background:var(--paper);color:var(--text);font-size:14px;display:flex}
+button,select,input{font:inherit}
+:focus-visible{outline:2px solid var(--saf);outline-offset:2px}
+aside{width:236px;background:var(--ink);color:#d6e0ea;display:flex;flex-direction:column;padding:20px 12px;position:sticky;top:0;height:100vh;flex-shrink:0}
+.brand{font-size:20px;font-weight:700;color:#fff;padding:0 10px 4px}.brand span{color:var(--saf)}
+.sub{font-size:12px;color:#8fa3b8;padding:0 10px 18px}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:#c3d0dd;padding:10px;border-radius:6px;cursor:pointer;margin-bottom:2px}
+nav button:hover{background:var(--ink2)}nav button.on{background:var(--ink2);color:#fff;box-shadow:inset 3px 0 var(--saf);font-weight:600}
+.foot{margin-top:auto;font-size:12px;color:#8fa3b8;padding:10px}
+main{flex:1;min-width:0;padding:24px 28px 48px}
+h1{font-size:22px;margin:0 0 4px}.lead{color:var(--mute);margin:0 0 20px}
+h2{font-size:15px;margin:0 0 12px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.hero{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:24px;align-items:center;background:var(--ink);color:#fff;border-radius:8px;padding:22px 26px;margin-bottom:16px}
+.hero .big{font-size:64px;font-weight:700;line-height:1;color:var(--saf)}.hero p{margin:8px 0 0;color:#b9c8d8}
+.kpi .v{font-size:24px;font-weight:700}.kpi .l{color:var(--mute);font-size:13px}
+.kpi.warn .v{color:var(--red)}.kpi.good .v{color:var(--teal)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--mute);font-size:13px;background:#fafbfc;position:sticky;top:0}
+tr.click{cursor:pointer}tr.click:hover{background:#f1f5f9}
+.scroll{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.pill{display:inline-block;padding:2px 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.bad{background:#fde8e6;color:var(--red)}.warn{background:#fdf1d9;color:var(--amber)}.ok{background:#dcf2ef;color:var(--teal)}.top{background:#dde8f7;color:var(--blue)}.neu{background:#eceff3;color:var(--mute)}
+.bar{height:8px;background:#e8edf2;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+input,select{padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.btn{background:var(--ink);color:#fff;border:0;padding:9px 14px;border-radius:6px;cursor:pointer;font-weight:600}.btn:hover{background:var(--ink2)}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:5px 9px;font-size:12px}
+.exp{color:#44525f;max-width:560px;font-size:13px}
+dialog{border:0;border-radius:10px;padding:0;width:min(780px,94vw);max-height:90vh}dialog::backdrop{background:rgba(18,38,58,.55)}
+.dlg{padding:22px;overflow:auto;max-height:90vh}.x{float:right}
+.chat{height:340px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:12px;background:#fff;margin-bottom:10px}
+.msg{margin:6px 0;padding:8px 12px;border-radius:8px;max-width:78%}.me{background:var(--ink);color:#fff;margin-left:auto}.bot{background:#eef2f6}
+.note{border-left:3px solid var(--saf);padding:6px 12px;margin-bottom:10px;background:#fff;border-radius:0 6px 6px 0}
+canvas{max-height:280px}
+@media(max-width:860px){body{display:block}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;padding:10px}.sub,.foot{display:none}nav{display:flex;flex-wrap:wrap}main{padding:16px}.hero{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<aside>
+  <div class="brand">Campus<span>Link</span></div>
+  <div class="sub">Placement command centre</div>
+  <nav id="nav"></nav>
+  <div class="foot">Simulated data - 600 students, 12 recruiters</div>
+</aside>
+<main id="main"></main>
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const get=p=>fetch("/api"+p).then(r=>r.json());
+const post=(p,b)=>fetch("/api"+p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})}).then(r=>r.json());
+const LV={"Not Ready":"bad","Developing":"warn","Ready":"ok","Highly Employable":"top"};
+const ST={"Shortlisted":"ok","Waitlisted":"warn","Below threshold":"bad","Not eligible":"neu","Accepted":"ok","Pending":"warn","Deferred":"neu","Withdrawn":"bad","Verified":"ok","Submitted":"top"};
+const pill=(t,m)=>`<span class="pill ${(m||LV)[t]||"neu"}">${esc(t)}</span>`;
+let charts=[];
+function chart(id,cfg){const c=new Chart(document.getElementById(id),cfg);charts.push(c)}
+Chart.defaults.font.family='"Public Sans",system-ui,sans-serif';Chart.defaults.color="#475569";
+const C={ink:"#12263A",saf:"#E8A33D",teal:"#137C74",red:"#C8453B",blue:"#2F5D9E",grey:"#cbd5e1"};
+const tbl=(head,rows)=>`<div class="scroll"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
+const kpi=(l,v,c="")=>`<div class="card kpi ${c}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+
+const VIEWS={
+async dashboard(){
+  const [s,a]=await Promise.all([get("/summary"),get("/analytics")]);
+  $("#main").innerHTML=`<h1>Placement overview</h1><p class="lead">Live status of the full pipeline, from registration to verified documents.</p>
+  <div class="hero"><div><div class="big">${s.placement_rate}%</div><p>of ${s.registered} registered students have an offer. ${s.at_risk} are at risk of staying unplaced.</p></div><div><canvas id="fun" height="150"></canvas></div></div>
+  <div class="grid g4" style="margin-bottom:16px">
+   ${kpi("Placement-ready students",s.ready,"good")}${kpi("Active and upcoming drives",s.drives)}${kpi("Offers made",s.offers.made)}
+   ${kpi("Offers accepted",s.offers.accepted,"good")}${kpi("Offers pending",s.offers.pending)}${kpi("Average package (LPA)",s.avg_ctc)}
+   ${kpi("Highest package (LPA)",s.max_ctc)}${kpi("Drive conflicts detected",s.conflicts,s.conflicts?"warn":"good")}</div>
+  <div class="grid g2">
+   <div class="card"><h2>Placement conversion by branch (%)</h2><canvas id="br"></canvas></div>
+   <div class="card"><h2>Placement rate by skill (%)</h2><canvas id="sk"></canvas></div>
+   <div class="card"><h2>Package trend (LPA)</h2><canvas id="pk"></canvas></div>
+   <div class="card"><h2>Readiness levels</h2><canvas id="rd"></canvas></div>
+   <div class="card"><h2>Documents for accepted offers</h2><canvas id="dc"></canvas></div>
+   <div class="card"><h2>Offer status</h2><canvas id="of"></canvas></div></div>
+  <div class="card" style="margin-top:16px"><h2>Recruiter pipeline and engagement</h2>${tbl(["Recruiter","Offers","Accepted","Avg CTC (LPA)","Years hired (2022-25)","Engagement"],
+   a.recruiters.map(r=>`<tr><td>${esc(r.company)}</td><td>${r.offers}</td><td>${r.accepted}</td><td>${r.avg_ctc}</td><td>${r.years_hired}</td><td>${pill(r.engagement,{"Repeat recruiter":"ok","Occasional":"warn","New":"neu"})}</td></tr>`))}</div>`;
+  const bar=(id,labels,data,col,h)=>chart(id,{type:"bar",data:{labels,datasets:[{data,backgroundColor:col}]},options:{indexAxis:h?"y":"x",plugins:{legend:{display:false}},scales:{x:{grid:{display:false}}}}});
+  bar("fun",s.funnel.map(f=>f.stage),s.funnel.map(f=>f.value),C.saf,true);
+  Chart.defaults.color="#475569";
+  charts[0].options.scales={x:{ticks:{color:"#b9c8d8"},grid:{color:"#2b4660"}},y:{ticks:{color:"#fff"},grid:{display:false}}};charts[0].update();
+  bar("br",a.branch.map(b=>b.branch),a.branch.map(b=>b.rate),C.teal);
+  bar("sk",a.skills.map(b=>b.skill),a.skills.map(b=>b.rate),C.blue);
+  chart("pk",{type:"line",data:{labels:a.packages.map(p=>p.year),datasets:[{label:"Average",data:a.packages.map(p=>p.avg_ctc),borderColor:C.teal,tension:.25},{label:"Highest",data:a.packages.map(p=>p.max_ctc),borderColor:C.saf,tension:.25}]}});
+  const lv=Object.keys(a.readiness_dist);
+  chart("rd",{type:"doughnut",data:{labels:lv,datasets:[{data:lv.map(k=>a.readiness_dist[k]),backgroundColor:[C.red,C.saf,C.teal,C.blue]}]}});
+  chart("dc",{type:"doughnut",data:{labels:Object.keys(s.docs),datasets:[{data:Object.values(s.docs),backgroundColor:[C.teal,C.red,C.blue]}]}});
+  chart("of",{type:"doughnut",data:{labels:["Accepted","Pending","Deferred","Withdrawn"],datasets:[{data:[s.offers.accepted,s.offers.pending,s.offers.deferred,s.offers.withdrawn],backgroundColor:[C.teal,C.saf,C.grey,C.red]}]}});
+},
+async students(){
+  $("#main").innerHTML=`<h1>Student readiness</h1><p class="lead">Employability score, skill gaps and personalised preparation for every student. Select a row for the full profile.</p>
+  <div class="row"><input id="q" placeholder="Search name or ID"><select id="b"><option value="">All branches</option>${["CSE","IT","ECE","EEE","MECH","CIVIL"].map(x=>`<option>${x}</option>`).join("")}</select>
+  <select id="l"><option value="">All levels</option>${Object.keys(LV).map(x=>`<option>${x}</option>`).join("")}</select><span id="cnt" class="lead" style="margin:0"></span></div><div id="tb"></div>`;
+  const load=async()=>{const r=await get(`/students?search=${encodeURIComponent($("#q").value)}&branch=${$("#b").value}&level=${encodeURIComponent($("#l").value)}&limit=120`);
+   $("#cnt").textContent=`${r.total} students`;
+   $("#tb").innerHTML=tbl(["ID","Name","Branch","CGPA","Backlogs","Readiness","Level","Outcome"],r.rows.map(s=>`<tr class="click" data-id="${s.id}"><td>${s.id}</td><td>${esc(s.name)}</td><td>${s.branch}</td><td>${s.cgpa}</td><td>${s.backlogs}</td>
+   <td style="min-width:120px">${s.readiness}<div class="bar"><i style="width:${s.readiness}%"></i></div></td><td>${pill(s.level)}</td><td>${s.placed?pill("Placed",{Placed:"ok"}):pill("Unplaced",{Unplaced:"warn"})}</td></tr>`));
+   document.querySelectorAll("tr.click").forEach(tr=>tr.onclick=()=>profile(tr.dataset.id))};
+  ["q","b","l"].forEach(i=>$("#"+i).oninput=load);load();
+},
+async matching(){
+  const ds=await get("/drives");
+  $("#main").innerHTML=`<h1>Recruiter matching</h1><p class="lead">Eligibility rules + skill coverage + NLP similarity + readiness. Every decision comes with its reason.</p>
+  <div class="row"><select id="d">${ds.map(d=>`<option value="${d.id}">${d.id} - ${esc(d.company)}</option>`).join("")}</select>
+  <select id="v"><option>Shortlisted</option><option>Waitlisted</option><option>Below threshold</option><option>Not eligible</option></select></div><div id="info"></div><div id="tb"></div>`;
+  const load=async()=>{const r=await get(`/drives/${$("#d").value}/match?view=${encodeURIComponent($("#v").value)}&limit=60`),c=r.company;
+   $("#info").innerHTML=`<div class="card" style="margin-bottom:14px"><b>${esc(c.name)}</b> - ${c.ctc} LPA. Needs ${c.skills.map(esc).join(", ")}. Min CGPA ${c.min_cgpa}, branches ${c.branches.join("/")}, max backlogs ${c.max_backlogs}, mock benchmark ${c.mock_bench}.
+   <div style="margin-top:8px">${Object.entries(r.counts).map(([k,v])=>pill(k+": "+v,ST)).join(" ")}</div></div>`;
+   $("#tb").innerHTML=tbl(["Student","Branch","CGPA","Fit","Fit level","Skills %","Why"],r.rows.map(s=>`<tr><td>${esc(s.name)}<br><small>${s.id}</small></td><td>${s.branch}</td><td>${s.cgpa}</td><td><b>${s.fit}</b></td><td>${pill(s.level)}</td><td>${s.cov}</td><td class="exp">${esc(s.explanation)}</td></tr>`))};
+  $("#d").onchange=load;$("#v").onchange=load;load();
+},
+async scheduler(){
+  const r=await get("/scheduler");
+  const sevc={High:"bad",Medium:"warn"};
+  $("#main").innerHTML=`<h1>Drive scheduling</h1><p class="lead">Conflicts are detected across venues, interview panels and shortlisted students.</p>
+  <div class="row"><button class="btn" id="res">Resolve conflicts automatically</button><button class="btn alt" id="rst">Reset schedule</button></div>
+  <div id="chg"></div>
+  <div class="card" style="margin-bottom:16px"><h2>${r.conflicts.length?r.conflicts.length+" conflicts detected":"No conflicts"}</h2>${r.conflicts.length?tbl(["Drives","Date and slot","Issues","Severity"],r.conflicts.map(c=>`<tr><td>${esc(c.company_a)} and ${esc(c.company_b)}</td><td>${c.date}<br>${c.slot}</td><td>${c.issues.map(esc).join("<br>")}</td><td>${pill(c.severity,sevc)}</td></tr>`)):"<p>Schedule is conflict-free.</p>"}</div>
+  <div class="card"><h2>Current schedule</h2>${tbl(["Drive","Recruiter","Date","Slot","Venue","Panel","Status"],r.drives.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.slot.localeCompare(b.slot)).map(d=>`<tr><td>${d.id}</td><td>${esc(d.company)}</td><td>${d.date}</td><td>${d.slot}</td><td>${d.venue}</td><td>${d.panel}</td><td>${pill(d.status,{Active:"ok",Upcoming:"top"})}</td></tr>`))}</div>`;
+  $("#res").onclick=async()=>{const x=await post("/scheduler/resolve");await VIEWS.scheduler();$("#chg").innerHTML=`<div class="card" style="margin-bottom:16px"><h2>${x.changes.length} drives rescheduled, students notified</h2>${x.changes.map(c=>`<div class="note"><b>${esc(c.company)}</b><br>${c.before} to ${c.after}</div>`).join("")}</div>`};
+  $("#rst").onclick=async()=>{await post("/scheduler/reset");VIEWS.scheduler()};
+},
+async offers(){
+  const r=await get("/offers");
+  $("#main").innerHTML=`<h1>Offers and documentation</h1><p class="lead">Offer lifecycle, CTC, bonds and joining documents. Change a status and the student is notified.</p>
+  <div class="row"><select id="fs"><option value="">All statuses</option>${["Accepted","Pending","Deferred","Withdrawn"].map(x=>`<option>${x}</option>`).join("")}</select>
+  <select id="fc"><option value="">All recruiters</option>${r.companies.map(x=>`<option>${esc(x)}</option>`).join("")}</select>
+  ${Object.entries(r.by_type).map(([k,v])=>pill(k+": "+v,{[k]:"top"})).join(" ")}</div><div id="tb"></div>`;
+  const opt=(a,v)=>a.map(x=>`<option ${x==v?"selected":""}>${x}</option>`).join("");
+  const load=async()=>{const x=await get(`/offers?status=${$("#fs").value}&company=${encodeURIComponent($("#fc").value)}`);
+   $("#tb").innerHTML=tbl(["Student","Recruiter","Type","CTC (LPA)","Bond","Offer status","Documents","Deadline"],x.rows.map(o=>`<tr><td>${esc(o.student)}<br><small>${o.student_id}</small></td><td>${esc(o.company)}</td><td>${o.type}</td><td>${o.ctc}</td><td>${o.bond_months?o.bond_months+" months":"None"}</td>
+   <td><select data-o="${o.id}" data-f="status">${opt(["Accepted","Pending","Deferred","Withdrawn"],o.status)}</select></td>
+   <td><select data-o="${o.id}" data-f="doc_status">${opt(["Pending","Submitted","Verified"],o.doc_status)}</select></td><td>${o.doc_deadline}</td></tr>`));
+   document.querySelectorAll("select[data-o]").forEach(s=>s.onchange=()=>post("/offers/"+s.dataset.o,{[s.dataset.f]:s.value}))};
+  $("#fs").onchange=load;$("#fc").onchange=load;load();
+},
+async risk(){
+  const r=await get("/at-risk");
+  $("#main").innerHTML=`<h1>At-risk students</h1><p class="lead">${r.total} unplaced students have a low predicted chance of placement. Escalate them to mentors with a targeted plan.</p>
+  <div id="tb">${tbl(["Student","Branch","CGPA","Readiness","Risk","Weakest areas","Recommended action",""],r.rows.map(s=>`<tr><td>${esc(s.name)}<br><small>${s.id}</small></td><td>${s.branch}</td><td>${s.cgpa}</td><td>${s.readiness}</td><td>${pill(Math.round(s.risk*100)+"%",{[Math.round(s.risk*100)+"%"]:s.risk>.75?"bad":"warn"})}</td><td>${s.weak_areas.join(", ")}</td><td class="exp">${esc(s.action)}</td><td><button class="btn sm" data-id="${s.id}">Escalate to mentor</button></td></tr>`))}</div>`;
+  document.querySelectorAll("button[data-id]").forEach(b=>b.onclick=async()=>{await post(`/at-risk/${b.dataset.id}/escalate`);b.textContent="Escalated";b.disabled=true});
+},
+async notes(){
+  const n=await get("/notifications");
+  $("#main").innerHTML=`<h1>Notifications</h1><p class="lead">Automated, targeted messages replace email chains and WhatsApp groups.</p><div class="row"><button class="btn" id="rf">Regenerate reminders</button></div>
+  ${n.map(x=>`<div class="note"><b>${esc(x.type)}</b> to ${esc(x.audience)} (${x.recipients} recipients, ${esc(x.channel)}) <small>${x.time}</small><br>${esc(x.message)}</div>`).join("")}`;
+  $("#rf").onclick=async()=>{await post("/notifications/refresh");VIEWS.notes()};
+},
+async assistant(){
+  const r=await get("/students?limit=40");
+  $("#main").innerHTML=`<h1>Student assistant</h1><p class="lead">Ask about eligibility, a specific recruiter, skill gaps, drive dates or packages.</p>
+  <div class="row"><select id="sid">${r.rows.map(s=>`<option value="${s.id}">${s.id} - ${esc(s.name)}</option>`).join("")}</select></div>
+  <div class="chat" id="ch"><div class="msg bot">Hello. Try: "Which drives am I eligible for?" or "Why not Zenith?"</div></div>
+  <div class="row"><input id="m" style="flex:1;min-width:220px" placeholder="Type your question"><button class="btn" id="go">Ask</button></div>`;
+  const send=async()=>{const t=$("#m").value.trim();if(!t)return;$("#m").value="";const ch=$("#ch");ch.innerHTML+=`<div class="msg me">${esc(t)}</div>`;
+   const x=await post("/chat",{student_id:$("#sid").value,message:t});ch.innerHTML+=`<div class="msg bot">${esc(x.reply)}</div>`;ch.scrollTop=ch.scrollHeight};
+  $("#go").onclick=send;$("#m").onkeydown=e=>{if(e.key==="Enter")send()};
+},
+async models(){
+  const m=await get("/metrics"),k=(l,v)=>kpi(l,v);
+  $("#main").innerHTML=`<h1>Models and evaluation</h1><p class="lead">Measured on simulated data. Matching is scored against hidden recruiter selections; the risk model uses 5-fold out-of-fold predictions.</p>
+  <h2>Matching engine (${m.matching.drives_evaluated} drives)</h2><div class="grid g4" style="margin-bottom:20px">${k("Precision@10 - CampusLink fit",m.matching.precision_at_10_fit)}${k("Precision@10 - CGPA only",m.matching.precision_at_10_cgpa_only)}${k("Precision@10 - random",m.matching.precision_at_10_random)}${k("Recall@25",m.matching.recall_at_25_fit)}${k("Lift over random",m.matching.lift_over_random+"x")}</div>
+  <h2>At-risk model</h2><div class="grid g4" style="margin-bottom:20px">${k("ROC-AUC",m.risk_model.auc)}${k("Accuracy",m.risk_model.accuracy)}${k("F1",m.risk_model.f1)}${k("Readiness score alone (AUC)",m.risk_model.baseline_readiness_auc)}</div>
+  <div class="card"><h2>Top features</h2>${m.risk_model.top_features.map(f=>`<div style="margin-bottom:8px">${f.feature} <small>${f.importance}</small><div class="bar"><i style="width:${f.importance*100/0.6}%"></i></div></div>`).join("")}</div>`;
+}};
+
+async function profile(id){
+  const p=await get("/students/"+id),d=$("#dlg");
+  $("#dlgBody").innerHTML=`<button class="btn alt sm x" onclick="document.getElementById('dlg').close()">Close</button>
+  <h1>${esc(p.name)} <small style="font-weight:400;color:var(--mute)">${p.id} - ${p.branch}</small></h1>
+  <p>CGPA ${p.cgpa}, backlogs ${p.backlogs}, aptitude ${p.aptitude}, mock ${p.mock}, communication ${p.comm}. Predicted placement chance ${Math.round(p.p_place*100)}%.</p>
+  <h2>Readiness ${p.readiness}/100 ${pill(p.level)}</h2>${Object.entries(p.components).map(([k,v])=>`<div style="margin-bottom:8px">${k} <small>${v} / ${p.max[k]}</small><div class="bar"><i style="width:${v/p.max[k]*100}%"></i></div></div>`).join("")}
+  <h2 style="margin-top:18px">Skills</h2><p>${p.skills.map(s=>pill(s,{[s]:"top"})).join(" ")}</p>
+  <h2>Skill gap by target role</h2>${tbl(["Role","Coverage","Missing"],p.gaps.map(g=>`<tr><td>${g.role}</td><td style="min-width:110px">${g.coverage}%<div class="bar"><i style="width:${g.coverage}%"></i></div></td><td>${g.missing.join(", ")||"None"}</td></tr>`))}
+  <h2 style="margin-top:18px">Preparation plan</h2>${p.recommendations.map(r=>`<div class="note">${esc(r)}</div>`).join("")}
+  <h2 style="margin-top:18px">Drive status</h2><p>${p.drives.map(x=>pill(x.drive+" "+x.status,ST)).join(" ")}</p>`;
+  d.showModal();
+}
+const NAV=[["dashboard","Overview"],["students","Student readiness"],["matching","Recruiter matching"],["scheduler","Drive scheduling"],["offers","Offers and documents"],["risk","At-risk students"],["notes","Notifications"],["assistant","Student assistant"],["models","Models and evaluation"]];
+$("#nav").innerHTML=NAV.map(([k,l])=>`<button data-v="${k}">${l}</button>`).join("");
+async function go(v){charts.forEach(c=>c.destroy());charts=[];document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+ $("#main").innerHTML='<p class="lead">Loading...</p>';try{await VIEWS[v]()}catch(e){$("#main").innerHTML=`<h1>Could not load this view</h1><p class="lead">${esc(e.message)}. Check that the backend is running on port 8000.</p>`}}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{location.hash=b.dataset.v;go(b.dataset.v)});
+go(location.hash.slice(1)||"dashboard");
+</script>
+</body>
+</html>
